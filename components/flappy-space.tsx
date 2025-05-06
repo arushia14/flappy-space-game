@@ -80,18 +80,18 @@ export default function FlappySpace() {
     setGameState("gameover")
 
     // Update high score if needed
-    if (score > highScore) {
-      setHighScore(score)
-      localStorage.setItem("flappySpaceHighScore", score.toString())
+    if (scoreRef.current > highScore) {
+      setHighScore(scoreRef.current)
+      localStorage.setItem("flappySpaceHighScore", scoreRef.current.toString())
 
       toast({
         title: "New High Score!",
-        description: `You achieved a new high score of ${score}!`,
+        description: `You achieved a new high score of ${scoreRef.current}!`,
       })
     } else {
       toast({
         title: "Game Over!",
-        description: `Your score: ${score}. High score: ${highScore}`,
+        description: `Your score: ${scoreRef.current}. High score: ${highScore}`,
       })
     }
   }
@@ -232,8 +232,12 @@ export default function FlappySpace() {
       // Draw spaceship
       drawSpaceship(ctx, canvas.width / 2 - SPACESHIP_WIDTH / 2, shipRef.current.y, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
 
-      // Draw score
-      ctx.fillStyle = "#ffffff"
+      // Draw high score (smaller font)
+      ctx.font = "14px 'Press Start 2P', monospace"
+      ctx.textAlign = "left"
+      ctx.fillText(`HS: ${highScore}`, 20, 30)
+
+      // Draw score (main, larger font)
       ctx.font = "20px 'Press Start 2P', monospace"
       ctx.textAlign = "center"
       ctx.fillText(`SCORE: ${scoreRef.current}`, canvas.width / 2, 30)
